@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Job Salary Search</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <img src="{{ url_for('static', filename='images/SEGULA_Technologies_logo.png') }}" alt="Company Logo" class="logo">
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">Job Salary Search</h2>
+                <form id="search-form" method="POST">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="job_title" name="job_title" placeholder="Enter job title" required>
+                    </div>
+                </form>
+                <div class="results" id="results"></div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
