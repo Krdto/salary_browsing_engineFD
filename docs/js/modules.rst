@@ -12,7 +12,7 @@ Functions
 
 .. js:function:: $('#job_title').on('input', function()
 
-   Evénement déclenché de=ès qu'il y à un input dans le champ #job_title.
+   Evénement déclenché dès qu'il y à un input dans le champ #job_title.
    Effectue une requête AJAX pour chercher les postes et salaires associés.
 
    * Fonction de succès appelée lors de la réception de la réponse du serveur.
