@@ -17,13 +17,13 @@ def load_and_clean_data(file_path):
         df = pd.read_excel(file_path, sheet_name='Conso 2024')
         
         # Garder seulement les colonnes spécifiées
-        df = df[['Country', 'Position', 'Total Annual Salary and Bonus in €', 'Total Annual Salary and Bonus Local Currency', 'Currency']]
+        df = df[['Name', 'Country', 'Position', 'Total Annual Salary and Bonus in €']]
         
         # Supprimer les lignes avec des valeurs manquantes
         df.dropna(inplace=True)
         
         # Retirer les doublons
-        df.drop_duplicates(inplace=True)
+        df.drop_duplicates(subset=['Name'], inplace=True)
         
         return df
     except Exception as e:
@@ -49,7 +49,7 @@ def get_salaries(job_title):
         
         # Extraction des correspondances pour l'intitulé de poste donné dans une liste de tuples contenant l'intitulé de poste 
         # et son score de correspondance
-        matches = process.extract(job_title, choices)
+        matches = process.extract(job_title, choices, limit=25)
         
         # Filtrer les correspondances par un seuil de score raisonnable
         threshold = 80
@@ -64,11 +64,9 @@ def get_salaries(job_title):
             filtered_df = df[df['Position'] == title]
             for index, row in filtered_df.iterrows():
                 salary_eur = row['Total Annual Salary and Bonus in €']
-                salary_local = row['Total Annual Salary and Bonus Local Currency']
-                currency = row['Currency']
                 country = row['Country']
                 # Ajout du salaire à la liste des salaires
-                salaries.append([country, round(salary_eur, 2), 'EUR', round(salary_local, 2), currency])
+                salaries.append([country, round(salary_eur, 2), 'EUR'])
         
         return corrected_job_titles, salaries
     except Exception as e:

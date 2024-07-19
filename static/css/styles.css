@@ -10,16 +10,22 @@ body {
 }
 .container {
     max-width: 800px;
+    width: 100%;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 .logo {
-    width: 250px;
+    width: 150px;
     position: absolute;
     top: 20px;
     left: 20px;
 }
 .card {
     border: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: none;
 }
 .card-title {
     font-size: 24px;
@@ -39,22 +45,10 @@ body {
     outline: none;
     border-color: #123456;
 }
-.btn-primary {
-    background-color: #164564;
-    border-color: #164564;
-    border-radius: 25px;
-    padding: 12px 30px;
-    font-size: 18px;
-    font-weight: bold;
-    display: block;
-    margin: 0 auto;
-}
-.btn-primary:hover {
-    background-color: #123456;
-    border-color: #123456;
-}
 .results {
     margin-top: 30px;
+    max-height: 400px; /* Adjust based on your needs */
+    overflow-y: auto;
 }
 .result-item {
     padding: 10px;
