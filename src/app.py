@@ -1,29 +1,38 @@
-from flask import Flask, render_template, request, jsonify
 import pandas as pd
 from thefuzz import process
 import logging
-from flask_caching import Cache
+from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__, template_folder="../templates", static_folder="../static")
 
 # Configuration du logging pour le debug
 logging.basicConfig(level=logging.DEBUG)
 
-# Configuration de Flask-Caching
-#cache = Cache(app, config={'CACHE_TYPE': 'simple'})
-
 # Chemin vers le fichier Excel contenant les données
 EXCEL_FILE = 'Conso 2024.xlsx'
 
-# Chargement des données depuis la sheet "Conso 2024"
-try:
-    df = pd.read_excel(EXCEL_FILE, sheet_name='Conso 2024')
-    df.drop_duplicates(inplace=True)  # Retirer les doublons
-except Exception as e:
-    logging.error(f"Erreur lors du chargement du fichier Excel: {e}")
-    df = pd.DataFrame()  # Créer un DataFrame vide en cas d'erreur
+def load_and_clean_data(file_path):
+    try:
+        # Charger uniquement la feuille "Conso 2024"
+        df = pd.read_excel(file_path, sheet_name='Conso 2024')
+        
+        # Garder seulement les colonnes spécifiées
+        df = df[['Country', 'Position', 'Total Annual Salary and Bonus in €', 'Total Annual Salary and Bonus Local Currency', 'Currency']]
+        
+        # Supprimer les lignes avec des valeurs manquantes
+        df.dropna(inplace=True)
+        
+        # Retirer les doublons
+        df.drop_duplicates(inplace=True)
+        
+        return df
+    except Exception as e:
+        logging.error(f"Erreur lors du chargement et du nettoyage du fichier Excel: {e}")
+        return pd.DataFrame()  # Créer un DataFrame vide en cas d'erreur
 
-#@cache.memoize(timeout=300)
+# Charger et nettoyer les données
+df = load_and_clean_data(EXCEL_FILE)
+
 def get_salaries(job_title):
     """
     Récupère les salaires pour un intitulé de poste donné.
@@ -43,7 +52,7 @@ def get_salaries(job_title):
         matches = process.extract(job_title, choices)
         
         # Filtrer les correspondances par un seuil de score raisonnable
-        threshold = 60
+        threshold = 80
         filtered_matches = [match for match in matches if match[1] >= threshold]
         
         # Liste des intitulés de postes corrigés
@@ -54,10 +63,12 @@ def get_salaries(job_title):
         for title in corrected_job_titles:
             filtered_df = df[df['Position'] == title]
             for index, row in filtered_df.iterrows():
-                salary = row['Total Annual Salary and Bonus in €']
+                salary_eur = row['Total Annual Salary and Bonus in €']
+                salary_local = row['Total Annual Salary and Bonus Local Currency']
+                currency = row['Currency']
                 country = row['Country']
                 # Ajout du salaire à la liste des salaires
-                salaries.append([country, round(salary, 2), 'EUR'])
+                salaries.append([country, round(salary_eur, 2), 'EUR', round(salary_local, 2), currency])
         
         return corrected_job_titles, salaries
     except Exception as e:
