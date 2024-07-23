@@ -38,7 +38,7 @@ $(document).ready(function() {
                     Object.keys(groupedResults).forEach(function(title) {
                         var jobResults = groupedResults[title];
                         var container = $('<div class="job-results"></div>');
-                        container.append('<h4>Results for ' + title + ':</h4>');
+                        container.append('<h4>' + jobResults.length + ' Results for ' + title + ':</h4>');
                         jobResults.forEach(function(item) {
                             container.append(
                                 '<div class="result-item"><p><strong>' + item[0] + '</strong> - ' + item[1] + ' ' + item[2] + '</p></div>'
