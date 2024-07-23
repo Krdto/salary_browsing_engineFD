@@ -17,13 +17,13 @@ def load_and_clean_data(file_path):
         df = pd.read_excel(file_path, sheet_name='Conso 2024')
         
         # Garder seulement les colonnes spécifiées
-        df = df[['Name', 'Country', 'Position', 'Total Annual Salary and Bonus in €']]
+        df = df[['Country', 'Position', 'Total Annual Salary and Bonus in €']]
         
         # Supprimer les lignes avec des valeurs manquantes
         df.dropna(inplace=True)
         
         # Retirer les doublons
-        df.drop_duplicates(subset=['Name'], inplace=True)
+        df.drop_duplicates(inplace=True)
         
         return df
     except Exception as e:
@@ -41,7 +41,7 @@ def get_salaries(job_title):
         job_title (str): L'intitulé de poste pour lequel récupérer les salaires.
     
     Returns:
-        tuple: Une liste des intitulés de postes corrigés et une liste de salaires.
+        dict: Un dictionnaire avec les intitulés de postes corrigés comme clés et les salaires moyens par pays comme valeurs.
     """
     try:
         # Liste des intitulés de postes disponibles dans les données
@@ -49,29 +49,27 @@ def get_salaries(job_title):
         
         # Extraction des correspondances pour l'intitulé de poste donné dans une liste de tuples contenant l'intitulé de poste 
         # et son score de correspondance
-        matches = process.extract(job_title, choices, limit=25)
+        matches = process.extract(job_title, choices, limit=50)
         
         # Filtrer les correspondances par un seuil de score raisonnable
         threshold = 80
         filtered_matches = [match for match in matches if match[1] >= threshold]
         
         # Liste des intitulés de postes corrigés
-        corrected_job_titles = [match[0] for match in filtered_matches]
-        salaries = []
+        corrected_job_titles = list(set([match[0] for match in filtered_matches]))
+        salary_dict = {}
 
         # Récupération des salaires pour chaque intitulé de poste corrigé
         for title in corrected_job_titles:
             filtered_df = df[df['Position'] == title]
-            for index, row in filtered_df.iterrows():
-                salary_eur = row['Total Annual Salary and Bonus in €']
-                country = row['Country']
-                # Ajout du salaire à la liste des salaires
-                salaries.append([country, round(salary_eur, 2), 'EUR'])
+            avg_salaries = filtered_df.groupby(['Country'], as_index=False)['Total Annual Salary and Bonus in €'].mean()
+            avg_salaries['Total Annual Salary and Bonus in €'] = avg_salaries['Total Annual Salary and Bonus in €'].round(2)
+            salary_dict[title] = avg_salaries[['Country', 'Total Annual Salary and Bonus in €']].values.tolist()
         
-        return corrected_job_titles, salaries
+        return salary_dict
     except Exception as e:
         logging.error(f"Erreur lors de la récupération des salaires: {e}")
-        return [], []
+        return {}
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -93,8 +91,8 @@ def search():
     """
     try:
         job_title = request.form['job_title']
-        corrected_job_titles, salaries = get_salaries(job_title)
-        return jsonify({'corrected_job_titles': corrected_job_titles, 'salaries': salaries})
+        salary_dict = get_salaries(job_title)
+        return jsonify(salary_dict)
     except Exception as e:
         logging.error(f"Erreur lors de la recherche: {e}")
         return jsonify({'error': 'Error occurred while fetching data.'}), 500

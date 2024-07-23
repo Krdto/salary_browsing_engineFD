@@ -18,37 +18,26 @@ $(document).ready(function() {
                 /**
                  * Fonction de succès appelée lors de la réception de la réponse du serveur.
                  * @param {Object} data - Les données renvoyées par le serveur.
-                 * @param {Array} data.corrected_job_titles - Liste des titres de postes corrigés.
-                 * @param {Array} data.salaries - Liste des salaires associés aux titres de postes.
                  */
                 success: function(data) {
                     var resultsDiv = $('#results');
                     resultsDiv.empty(); // Vide les résultats précédents
 
-                    // Regroupage des résultats par poste
-                    var groupedResults = {};
-                    data.corrected_job_titles.forEach(function(title, index) {
-                        if (!groupedResults[title]) {
-                            groupedResults[title] = [];
-                        }
-                        groupedResults[title].push(data.salaries[index]);
-                    });
-
                     // Affichage des résultats regroupés
-                    Object.keys(groupedResults).forEach(function(title) {
-                        var jobResults = groupedResults[title];
+                    Object.keys(data).forEach(function(title) {
+                        var jobResults = data[title];
                         var container = $('<div class="job-results"></div>');
                         container.append('<h4>' + jobResults.length + ' Results for ' + title + ':</h4>');
                         jobResults.forEach(function(item) {
                             container.append(
-                                '<div class="result-item"><p><strong>' + item[0] + '</strong> - ' + item[1] + ' ' + item[2] + '</p></div>'
+                                '<div class="result-item"><p><strong>' + item[0] + '</strong> - ' + item[1].toFixed(2) + ' EUR</p></div>'
                             );
                         });
                         resultsDiv.append(container);
                     });
 
                     // Si aucun résultat n'est trouvé
-                    if (Object.keys(groupedResults).length === 0) {
+                    if (Object.keys(data).length === 0) {
                         resultsDiv.append(
                             '<div class="alert alert-warning">No data found for the given job title.</div>'
                         );
