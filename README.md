@@ -9,8 +9,6 @@ Cette application fournit une interface pour rechercher les salaires annuels moy
 3. [Utilisation](#utilisation)
 4. [Fonctionnalités](#fonctionnalités)
 5. [Points de terminaison de l'API](#points-de-terminaison-de-lapi)
-6. [Contribution](#contribution)
-7. [Licence](#licence)
 
 ## Installation
 
@@ -18,11 +16,11 @@ Pour installer et exécuter cette application, suivez ces étapes :
 
 1. Clonez le dépôt :
    ```bash
-   git clone <url-du-dépôt>
+   git clone https://github.com/Krdto/salary_browsing_engineFD.git
    ```
 2. Accédez au répertoire du projet :
    ```bash
-   cd répertoire-du-projet
+   cd salary_browsing_engineFD
    ```
 3. Installez les dépendances requises :
    ```bash
@@ -84,7 +82,7 @@ Pour utiliser l'application :
 
 1. **Charger les données** : Assurez-vous que le fichier Excel `Conso 2024.xlsx` se trouve dans le répertoire racine.
 2. **Exécuter le serveur** : Démarrez le serveur Flask en utilisant la commande fournie dans les étapes d'installation.
-3. **Accéder à l'interface web** : Ouvrez votre navigateur et accédez à `http://localhost:5000`.
+3. **Accéder à l'interface web** : Ouvrez un navigateur web et allez à [http://localhost:5000](http://localhost:5000).
 
 ## Fonctionnalités
 
@@ -97,26 +95,3 @@ Pour utiliser l'application :
 
 - `GET /`: Route principale qui rend la page d'accueil.
 - `POST /search`: Accepte un intitulé de poste et renvoie des données JSON avec des intitulés de postes corrigés et les salaires associés.
-
-## Contribution
-
-Pour contribuer à ce projet, suivez le flux de travail Git standard :
-
-1. Forkez le dépôt.
-2. Créez une nouvelle branche (`git checkout -b feature/your-feature`).
-3. Apportez vos modifications.
-4. Commitez vos modifications (`git commit -am 'Ajout d'une fonctionnalité'`).
-5. Pushez vers la branche (`git push origin feature/your-feature`).
-6. Créez une nouvelle Pull Request.
-
-## Licence
-
-Ce projet est sous licence MIT.
-
----
-
-Hotkeys:  
-- **Z**: [Déployer sur Netlify](https://app.netlify.com/drop)  
-- **T**: Cas de test  
-- **D**: Itérer, Améliorer, Évoluer  
-- **A**: Alt - Alternatives
