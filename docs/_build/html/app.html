@@ -278,10 +278,10 @@
 <dd class="field-odd"><p><strong>job_title</strong> (<em>str</em>) – L’intitulé de poste pour lequel récupérer les salaires.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Une liste des intitulés de postes corrigés et une liste de salaires convertis en EUR.</p>
+<dd class="field-even"><p>Un dictionnaire avec les intitulés de postes corrigés comme clés et les salaires moyens par pays comme valeurs.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple</p>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -299,6 +299,11 @@
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.load_and_clean_data">
+<span class="sig-prename descclassname"><span class="pre">app.</span></span><span class="sig-name descname"><span class="pre">load_and_clean_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app.html#load_and_clean_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.load_and_clean_data" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.search">
@@ -374,6 +379,7 @@
 <li><a class="reference internal" href="#">app module</a><ul>
 <li><a class="reference internal" href="#app.get_salaries"><code class="docutils literal notranslate"><span class="pre">get_salaries()</span></code></a></li>
 <li><a class="reference internal" href="#app.index"><code class="docutils literal notranslate"><span class="pre">index()</span></code></a></li>
+<li><a class="reference internal" href="#app.load_and_clean_data"><code class="docutils literal notranslate"><span class="pre">load_and_clean_data()</span></code></a></li>
 <li><a class="reference internal" href="#app.search"><code class="docutils literal notranslate"><span class="pre">search()</span></code></a></li>
 </ul>
 </li>
