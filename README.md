@@ -6,8 +6,9 @@ Cette application fournit une interface pour rechercher les salaires annuels moy
 
 1. [Installation](#installation)
 2. [Utilisation](#utilisation)
-4. [Fonctionnalités](#fonctionnalités)
-5. [Points de terminaison de l'API](#points-de-terminaison-de-lapi)
+3. [Fonctionnalités](#fonctionnalités)
+4. [Points de terminaison de l'API](#points-de-terminaison-de-lapi)
+5. [Structure des fichiers](#structure-des-fichiers)
 
 ## Installation
 
@@ -49,3 +50,9 @@ Pour utiliser l'application :
 
 - `GET /`: Route principale qui rend la page d'accueil.
 - `POST /search`: Accepte un intitulé de poste et renvoie des données JSON avec des intitulés de postes corrigés et les salaires associés.
+
+## Structure des fichiers
+
+- `src/app.py` : Script principal de l'application.
+- `templates/index.html` : Modèle HTML pour l'interface web.
+- `static/` : Fichiers statiques (images, feuilles de style CSS, JavaScript).
